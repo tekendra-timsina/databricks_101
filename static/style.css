@@ -307,3 +307,57 @@ tbody:empty::after {
   color: var(--primary-color);
   font-weight: 600;
 }
+
+/* Delete Button Styling */
+.delete-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delete-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+/* Delete Animation */
+tr.deleting {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+tr.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+/* Action Column Styling */
+th:last-child,
+td:last-child {
+  text-align: center;
+  width: 120px;
+}

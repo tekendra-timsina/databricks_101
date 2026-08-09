@@ -149,6 +149,33 @@ def get_watchlist():
     return jsonify(rows)
 
 
+@app.route("/watchlist", methods=["DELETE"])
+def delete_from_watchlist():
+    """
+    Remove a stock symbol from the current user's watchlist.
+    """
+    ensure_watchlist_table()
+
+    if request.is_json:
+        symbol = request.json.get("symbol", "")
+    else:
+        symbol = request.args.get("symbol", "")
+
+    symbol = symbol.strip().upper() if isinstance(symbol, str) else ""
+
+    if not symbol:
+        return jsonify({"error": "Symbol is required"}), 400
+
+    email = _current_user_email()
+
+    lakebase.run_write(
+        f"DELETE FROM {WATCHLIST_TABLE_NAME} WHERE symbol = %s AND email = %s",
+        (symbol, email),
+    )
+
+    return jsonify({"symbol": symbol, "message": "Removed from watchlist"})
+
+
 @app.route("/watchlist", methods=["POST"])
 def add_to_watchlist():
     """
